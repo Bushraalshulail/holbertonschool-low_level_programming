@@ -5,8 +5,14 @@
  */
 void print_alphabet(void)
 {
-	char alphabet[] = "abcdefghijklmnopqrstuvwxyz\n";
+	char alphabet[] = "abcdefghijklmnopqrstuvwxyz";
+	int i;
 
-	_putchar(alphabet[0]); /* Print the first character */
-	_putchar(alphabet[1]); /* Print the rest of the string */
+	/* Print each character using _putchar */
+	for (i = 0; alphabet[i] != '\0'; i++)
+	{
+		_putchar(alphabet[i]);
+	}
+	_putchar('\n'); /* Print newline */
 }
+
