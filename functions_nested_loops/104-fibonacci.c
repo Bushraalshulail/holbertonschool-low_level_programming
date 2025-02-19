@@ -1,11 +1,11 @@
 #include <stdio.h>
 
 /**
- * print_fibonacci_first_92 - Prints the first 92 Fibonacci numbers
- * @fib1: First Fibonacci number
- * @fib2: Second Fibonacci number
+ * print_first_92 - Prints the first 92 Fibonacci numbers
+ * @fib1: First number
+ * @fib2: Second number
  */
-void print_fibonacci_first_92(unsigned long fib1, unsigned long fib2)
+void print_first_92(unsigned long fib1, unsigned long fib2)
 {
 	int count;
 	unsigned long next;
@@ -22,64 +22,69 @@ void print_fibonacci_first_92(unsigned long fib1, unsigned long fib2)
 }
 
 /**
- * print_fibonacci_large - Prints Fibonacci numbers beyond the 92nd term
- * @f1_h1: First half of fib1
- * @f1_h2: Second half of fib1
- * @f2_h1: First half of fib2
- * @f2_h2: Second half of fib2
+ * print_large_fibonacci - Handles Fibonacci numbers larger than 92nd
+ * @fib1_high: High part of the first large Fibonacci number
+ * @fib1_low: Low part of the first large Fibonacci number
+ * @fib2_high: High part of the second large Fibonacci number
+ * @fib2_low: Low part of the second large Fibonacci number
  */
-void print_fibonacci_large(unsigned long f1_h1, unsigned long f1_h2,
-			   unsigned long f2_h1, unsigned long f2_h2)
+void print_large_fibonacci(unsigned long fib1_high, unsigned long fib1_low,
+		unsigned long fib2_high, unsigned long fib2_low)
 {
 	int count;
-	unsigned long h1, h2;
+	unsigned long high, low;
+	unsigned long divisor = 10000000000;
 
 	for (count = 93; count <= 98; count++)
 	{
-		h1 = f1_h1 + f2_h1;
-		h2 = f1_h2 + f2_h2;
+		high = fib1_high + fib2_high;
+		low = fib1_low + fib2_low;
 
-		/* Handle overflow by carrying to the higher half */
-		if (h2 >= 1000000000)
+		if (low >= divisor)
 		{
-			h1 += 1;
-			h2 %= 1000000000;
+			high++;
+			low -= divisor;
 		}
 
-		/* Avoid leading zeros in large Fibonacci numbers */
-		if (h1 == 0)
-			printf(", %lu", h2);
-		else
-			printf(", %lu%09lu", h1, h2);
+		printf(", %lu%010lu", high, low);
 
-		f1_h1 = f2_h1;
-		f1_h2 = f2_h2;
-		f2_h1 = h1;
-		f2_h2 = h2;
+		fib1_high = fib2_high;
+		fib1_low = fib2_low;
+		fib2_high = high;
+		fib2_low = low;
 	}
 }
 
 /**
- * main - Prints the first 98 Fibonacci numbers
+ * print_fibonacci - Prints the first 98 Fibonacci numbers
+ */
+void print_fibonacci(void)
+{
+	unsigned long fib1 = 1, fib2 = 2;
+	unsigned long fib1_high, fib1_low, fib2_high, fib2_low;
+	unsigned long divisor = 10000000000;
+
+	print_first_92(fib1, fib2);
+
+	fib1_high = fib1 / divisor;
+	fib1_low = fib1 % divisor;
+	fib2_high = fib2 / divisor;
+	fib2_low = fib2 % divisor;
+
+	print_large_fibonacci(fib1_high, fib1_low, fib2_high, fib2_low);
+
+	printf("\n");
+}
+
+/**
+ * main - Entry point
  *
  * Return: Always 0 (Success)
  */
 int main(void)
 {
-	unsigned long fib1 = 1, fib2 = 2;
-	unsigned long f1_h1, f1_h2, f2_h1, f2_h2;
-
-	print_fibonacci_first_92(fib1, fib2);
-
-	/* Split numbers into two halves to handle overflow */
-	f1_h1 = fib1 / 1000000000;
-	f1_h2 = fib1 % 1000000000;
-	f2_h1 = fib2 / 1000000000;
-	f2_h2 = fib2 % 1000000000;
-
-	print_fibonacci_large(f1_h1, f1_h2, f2_h1, f2_h2);
-
-	printf("\n");
+	print_fibonacci();
 	return (0);
 }
+
 
