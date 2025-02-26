@@ -1,34 +1,35 @@
 #include "main.h"
 
 /**
- * _atoi - converts a string to an integer
- * @s: the string to be converted
+ * _atoi - Converts a string to an integer
+ * @s: The input string
  *
- * Return: the integer value of the string
+ * Return: The converted integer, or 0 if no valid number is found
  */
 int _atoi(char *s)
 {
-	int i = 0, sign = 1, result = 0;
+	int i = 0, sign = 1, has_started = 0;
+	unsigned int result = 0;
 
-	/* Skip leading whitespace characters */
-	while (s[i] != '\0' && (s[i] == ' ' || s[i] == '\t' || s[i] == '\n'))
-		i++;
-
-	/* Handle signs ('+' or '-') */
-	while (s[i] != '\0' && (s[i] == '+' || s[i] == '-'))
+	/* Traverse the string */
+	while (s[i] != '\0')
 	{
-		if (s[i] == '-')
+		/* Handle signs before the number starts */
+		if (s[i] == '-' && !has_started)
 			sign *= -1;
+		else if (s[i] == '+' && !has_started)
+			sign *= 1;
+		else if (s[i] >= '0' && s[i] <= '9')
+		{
+			/* Convert string to integer */
+			result = result * 10 + (s[i] - '0');
+			has_started = 1;
+		}
+		else if (has_started)
+			break; /* Stop if a non-digit appears after a number */
 		i++;
 	}
 
-	/* Convert the string to an integer */
-	while (s[i] >= '0' && s[i] <= '9')
-	{
-		result = result * 10 + (s[i] - '0');
-		i++;
-	}
-
-	return (result * sign);
+	return (sign * result);
 }
 
