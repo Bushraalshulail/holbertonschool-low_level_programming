@@ -9,13 +9,21 @@
  */
 char *_strchr(char *s, char c)
 {
-	while (*s)
+	while (*s != '\0')  /* Loop through the string until the null terminator */
 	{
-		if (*s == c)
+		if (*s == c)  /* If the character matches, return a pointer to it */
+		{
 			return (s);
-		s++;
+		}
+		s++;  /* Move to the next character */
 	}
+
+	/* If c is the null character, return a pointer to the null terminator */
 	if (c == '\0')
+	{
 		return (s);
-	return (NULL);
+	}
+
+	return (NULL);  /* Character not found, return NULL */
 }
+
