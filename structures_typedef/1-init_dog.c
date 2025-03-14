@@ -1,3 +1,4 @@
+#include <stddef.h> /* Include this to define NULL */
 #include "dog.h"
 
 /**
@@ -11,10 +12,11 @@
  */
 void init_dog(struct dog *d, char *name, float age, char *owner)
 {
-	if (d != NULL)
+	if (d != NULL) /* Ensure d is not NULL before using it */
 	{
 		d->name = name;
 		d->age = age;
 		d->owner = owner;
 	}
 }
+
